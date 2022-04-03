@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	"neko-status/stat"
+	"neko-status/walled"
 
 	"github.com/gin-gonic/gin"
 	"gopkg.in/yaml.v2"
@@ -48,6 +49,7 @@ func main() {
 		fmt.Println("neko-status v1.0")
 		return
 	}
+	go walled.MonitorWalled()
 	API()
 }
 func API() {
@@ -57,6 +59,7 @@ func API() {
 	r.GET("/stat", Stat)
 	r.GET("/iperf3", Iperf3)
 	r.GET("/iperf3ws", Iperf3Ws)
+	r.GET("/walled", Stat)
 	fmt.Println("Api port:", Config.Port)
 	fmt.Println("Api key:", Config.Key)
 	r.Run(":" + strconv.Itoa(Config.Port))
